@@ -11,7 +11,6 @@ import {
   LogOut,
   ShieldCheck,
   PlusCircle,
-  RefreshCw,
   Users,
   UploadCloud
 } from 'lucide-react';
@@ -97,17 +96,6 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Action Controls */}
         <div className="flex items-center gap-2 flex-wrap">
-          {/* Quick Manual Sync */}
-          <button
-            onClick={onQuickSyncDrive || onOpenLocalFileModal}
-            disabled={isSyncingDrive}
-            className="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-500 text-white px-3.5 py-2 rounded-lg text-xs font-bold transition-all shadow-md shadow-blue-950/50 disabled:opacity-50"
-            title="بروزرسانی داده‌ها از فایل محلی"
-          >
-            <RefreshCw className={`w-3.5 h-3.5 text-white ${isSyncingDrive ? 'animate-spin' : ''}`} />
-            <span>{isSyncingDrive ? 'در حال بازخوانی...' : 'بازخوانی فایل محلی'}</span>
-          </button>
-
           {/* View Mode Toggle */}
           <div className="flex items-center bg-[#16161a] p-1 rounded-lg border border-slate-800">
             <button
@@ -136,28 +124,6 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
           </div>
 
-          {/* Upload Excel Button */}
-          {onOpenUploadModal && (
-            <button
-              onClick={onOpenUploadModal}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold transition-all border bg-[#16161a] hover:bg-slate-800 border-slate-700 hover:border-emerald-600/60 text-slate-200 hover:text-emerald-300 shadow-sm"
-              title="بارگذاری فایل اکسل جدید و جایگزینی داده‌ها در سامانه"
-            >
-              <UploadCloud className="w-3.5 h-3.5 text-emerald-400" />
-              <span>بارگذاری اکسل</span>
-            </button>
-          )}
-
-          {/* Local Excel File & Permanent Link Button */}
-          <button
-            onClick={onOpenLocalFileModal || onOpenDriveModal}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold transition-all border bg-[#16161a] hover:bg-slate-800 border-emerald-600/50 text-emerald-300 hover:text-emerald-200 shadow-sm"
-            title="مشاهده و دانلود فایل اکسل محلی و دریافت لینک دائم"
-          >
-            <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-400" />
-            <span>فایل اکسل محلی (لینک دائم)</span>
-          </button>
-
           {/* Reset Filters */}
           {activeFilterCount > 0 && (
             <button
@@ -169,16 +135,6 @@ export const Header: React.FC<HeaderProps> = ({
               <span>پاکسازی فیلترها ({activeFilterCount})</span>
             </button>
           )}
-
-          {/* Export to Excel */}
-          <button
-            onClick={onExportExcel}
-            className="flex items-center gap-1.5 bg-emerald-900/30 hover:bg-emerald-800/40 border border-emerald-700/60 text-emerald-300 px-3 py-2 rounded-lg text-xs font-medium transition-all"
-            title="دانلود اکسل فیلتر شده"
-          >
-            <FileSpreadsheet className="w-3.5 h-3.5" />
-            <span>خروجی اکسل ({filteredCount})</span>
-          </button>
 
           {/* Print / PDF */}
           <button
@@ -218,16 +174,56 @@ export const Header: React.FC<HeaderProps> = ({
             </div>
           )}
 
-          {/* Admin User Management Button (in Admin mode) */}
+          {/* Admin Exclusive Controls: Upload Excel, Local Excel File, Export Excel, User Management */}
           {isAdmin && (
-            <button
-              onClick={onOpenAdminUserManagement}
-              className="flex items-center gap-1.5 bg-purple-950/60 hover:bg-purple-900/80 border border-purple-600/60 text-purple-300 px-3 py-2 rounded-lg text-xs font-bold transition-all shadow-sm"
-              title="تعریف کاربر دانشجو یا استاد جدید و ویرایش لیست اساتید"
-            >
-              <Users className="w-3.5 h-3.5 text-purple-400" />
-              <span>مدیریت کاربران و اساتید</span>
-            </button>
+            <div className="flex items-center gap-1.5 p-1 bg-amber-950/30 border border-amber-500/40 rounded-xl animate-fadeIn flex-wrap">
+              <div className="flex items-center gap-1 text-[11px] font-bold text-amber-400 px-2 border-l border-amber-700/50">
+                <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
+                <span>پنل ادمین</span>
+              </div>
+
+              {/* Upload Excel Button (Admin Only) */}
+              {onOpenUploadModal && (
+                <button
+                  onClick={onOpenUploadModal}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-emerald-950/70 hover:bg-emerald-900 border border-emerald-600/70 text-emerald-300 hover:text-emerald-200 shadow-sm"
+                  title="بارگذاری فایل اکسل جدید و جایگزینی داده‌ها در سامانه"
+                >
+                  <UploadCloud className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>بارگذاری اکسل</span>
+                </button>
+              )}
+
+              {/* Local Excel File & Permanent Link Button (Admin Only) */}
+              <button
+                onClick={onOpenLocalFileModal || onOpenDriveModal}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all bg-[#121218] hover:bg-slate-800 border border-emerald-600/50 text-emerald-300 hover:text-emerald-200 shadow-sm"
+                title="مشاهده و دانلود فایل اکسل محلی و دریافت لینک دائم"
+              >
+                <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-400" />
+                <span>فایل اکسل محلی (لینک دائم)</span>
+              </button>
+
+              {/* Export to Excel (Admin Only) */}
+              <button
+                onClick={onExportExcel}
+                className="flex items-center gap-1.5 bg-emerald-900/40 hover:bg-emerald-800/60 border border-emerald-700/60 text-emerald-300 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all"
+                title="دانلود خروجی اکسل جلسات دفاع"
+              >
+                <FileSpreadsheet className="w-3.5 h-3.5" />
+                <span>خروجی اکسل ({filteredCount})</span>
+              </button>
+
+              {/* Admin User Management Button */}
+              <button
+                onClick={onOpenAdminUserManagement}
+                className="flex items-center gap-1.5 bg-purple-950/70 hover:bg-purple-900/90 border border-purple-600/60 text-purple-300 px-3 py-1.5 rounded-lg text-xs font-bold transition-all shadow-sm"
+                title="تعریف کاربر دانشجو یا استاد جدید و ویرایش لیست اساتید"
+              >
+                <Users className="w-3.5 h-3.5 text-purple-400" />
+                <span>مدیریت کاربران و اساتید</span>
+              </button>
+            </div>
           )}
 
           {/* Admin Login / Logout Button */}

@@ -649,6 +649,8 @@ export default function App() {
         onUpdateUsers={handleUpdateUsers}
         records={records}
         columns={columns}
+        onOpenUploadModal={() => setIsUploadModalOpen(true)}
+        onOpenLocalFileModal={() => setIsLocalFileModalOpen(true)}
       />
 
       {/* Local Excel File & Permanent Link Modal */}

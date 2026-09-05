@@ -19,7 +19,8 @@ import {
   Award,
   RefreshCw,
   Eye,
-  EyeOff
+  EyeOff,
+  UploadCloud
 } from 'lucide-react';
 import { AppUser, UserRole } from '../types/user';
 import { ColumnDefinition, DefenseRecord } from '../types/defense';
@@ -33,6 +34,8 @@ interface AdminUserManagementModalProps {
   onUpdateUsers: (updatedUsers: AppUser[]) => void;
   records: DefenseRecord[];
   columns: ColumnDefinition[];
+  onOpenUploadModal?: () => void;
+  onOpenLocalFileModal?: () => void;
 }
 
 export const AdminUserManagementModal: React.FC<AdminUserManagementModalProps> = ({
@@ -42,6 +45,8 @@ export const AdminUserManagementModal: React.FC<AdminUserManagementModalProps> =
   onUpdateUsers,
   records,
   columns,
+  onOpenUploadModal,
+  onOpenLocalFileModal,
 }) => {
   const [activeTab, setActiveTab] = useState<'professors' | 'new_user' | 'all_users'>('professors');
   const [searchTerm, setSearchTerm] = useState('');
@@ -942,13 +947,41 @@ export const AdminUserManagementModal: React.FC<AdminUserManagementModalProps> =
             <span>دانشجویان: <strong className="text-emerald-300">{users.filter(u => u.role === 'student').length}</strong></span>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 flex-wrap">
+            {onOpenUploadModal && (
+              <button
+                onClick={() => {
+                  onClose();
+                  onOpenUploadModal();
+                }}
+                className="flex items-center gap-1.5 bg-emerald-950/70 hover:bg-emerald-900 border border-emerald-600/70 text-emerald-300 px-3 py-2 rounded-xl text-xs font-bold transition-all shadow-sm"
+                title="بارگذاری فایل اکسل جدید و جایگزینی آن در سامانه"
+              >
+                <UploadCloud className="w-3.5 h-3.5 text-emerald-400" />
+                <span>بارگذاری فایل اکسل</span>
+              </button>
+            )}
+
+            {onOpenLocalFileModal && (
+              <button
+                onClick={() => {
+                  onClose();
+                  onOpenLocalFileModal();
+                }}
+                className="flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 border border-emerald-600/50 text-emerald-300 px-3 py-2 rounded-xl text-xs font-semibold transition-all shadow-sm"
+                title="مشاهده لینک دائم و دانلود فایل form_defa.xlsx"
+              >
+                <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-400" />
+                <span>فایل اکسل محلی (لینک دائم)</span>
+              </button>
+            )}
+
             <button
               onClick={handleExportExcelWithUsers}
               className="flex items-center gap-1.5 bg-emerald-800 hover:bg-emerald-700 border border-emerald-600/60 text-emerald-100 px-3.5 py-2 rounded-xl text-xs font-bold transition-all"
             >
               <FileSpreadsheet className="w-3.5 h-3.5" />
-              <span>دانلود form_defa با شیت کاربران</span>
+              <span>خروجی فرم اکسل با کاربران</span>
             </button>
             <button
               onClick={onClose}
