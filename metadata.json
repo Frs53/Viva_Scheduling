@@ -1,0 +1,8 @@
+{
+  "name": "سامانه مدیریت و زمان‌بندی جلسات دفاع",
+  "description": "سامانه هوشمند پایش، فیلتر و مدیریت جلسات دفاع دانشجویان با ذخیره‌سازی و بازیابی مستقیم از فایل اکسل محلی form_defa.xlsx",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
